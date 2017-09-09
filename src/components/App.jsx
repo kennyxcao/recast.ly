@@ -24,8 +24,10 @@ class App extends React.Component {
   }
   
   handleSearchSubmit(query) {
-    this.options.query = query,
-    this.props.searchYouTube(this.options, this.updateVideos);
+    if (query) {
+      this.options.query = query,
+      this.props.searchYouTube(this.options, this.updateVideos);
+    }
   }
   
   componentDidMount() {
