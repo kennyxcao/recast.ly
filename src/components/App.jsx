@@ -32,11 +32,6 @@ class App extends React.Component {
       this.props.searchYouTube(this.options, this.updateVideos);
     }
   }
-
-  handleAutoPlayToggle() {
-
-
-  }
   
   componentDidMount() {
     this.props.searchYouTube(this.options, this.updateVideos);
