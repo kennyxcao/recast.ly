@@ -5,13 +5,35 @@ class App extends React.Component {
       videos: exampleVideoData,
       videoPlaying: exampleVideoData[0]
     };
-    console.log(YOUTUBE_API_KEY);
+    this.options = {
+      query: 'cat',
+      max: '5',
+      key: YOUTUBE_API_KEY
+    },
     this.handleVideoTitleClick = this.handleVideoTitleClick.bind(this);
+    this.updateVideos = this.updateVideos.bind(this);
+    this.handleSearchSubmit = this.handleSearchSubmit.bind(this);
   }
   
   handleVideoTitleClick(video) {
     this.setState({
       videoPlaying: video
+    });
+  }
+  
+  handleSearchSubmit(query) {
+    this.options.query = query,
+    this.props.searchYouTube(this.options, this.updateVideos);
+  }
+  
+  componentDidMount() {
+    this.props.searchYouTube(this.options, this.updateVideos);
+  }
+  
+  updateVideos(videos) {
+    this.setState({
+      videos: videos,
+      videoPlaying: videos[0]
     });
   }
   
@@ -21,7 +43,7 @@ class App extends React.Component {
       <div>
         <nav className="navbar">
           <div className="col-md-6 offset-md-3">
-            <div><Search /></div>
+            <div><Search handleSearchSubmit={this.handleSearchSubmit}/></div>
           </div>
         </nav>
         <div className="row">
