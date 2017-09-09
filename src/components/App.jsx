@@ -5,7 +5,7 @@ class App extends React.Component {
       videos: exampleVideoData,
       videoPlaying: exampleVideoData[0]
     };
-    
+    console.log(YOUTUBE_API_KEY);
     this.handleVideoTitleClick = this.handleVideoTitleClick.bind(this);
   }
   
