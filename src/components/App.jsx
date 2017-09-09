@@ -3,7 +3,9 @@ class App extends React.Component {
     super(props);
     this.state = {
       videos: exampleVideoData,
-      videoPlaying: exampleVideoData[0]
+      videoPlaying: exampleVideoData[0],
+      autoplay: 0,
+      repeat: 'repeat'
     };
     this.options = {
       query: 'cat',
@@ -12,7 +14,8 @@ class App extends React.Component {
     },
     this.handleVideoTitleClick = this.handleVideoTitleClick.bind(this);
     this.handleSearchSubmit = this.handleSearchSubmit.bind(this);
-    this.updateVideos = this.updateVideos.bind(this);    
+    this.updateVideos = this.updateVideos.bind(this);
+    this.handleAutoPlay = this.handleAutoPlay.bind(this);
     
     _.debounce(this.props.searchYouTube, 500);
   }
@@ -29,6 +32,11 @@ class App extends React.Component {
       this.props.searchYouTube(this.options, this.updateVideos);
     }
   }
+
+  handleAutoPlayToggle() {
+
+
+  }
   
   componentDidMount() {
     this.props.searchYouTube(this.options, this.updateVideos);
@@ -40,6 +48,13 @@ class App extends React.Component {
       videoPlaying: videos[0]
     });
   }
+
+  handleAutoPlay() {
+    this.setState({
+      autoplay: +!this.state.autoplay,
+      repeat: this.state.autoplay ? 'repeat' : 'play'
+    });
+  }
   
   render() {
     
@@ -47,12 +62,12 @@ class App extends React.Component {
       <div>
         <nav className="navbar">
           <div className="col-md-6 offset-md-3">
-            <div><Search handleSearchSubmit={this.handleSearchSubmit}/></div>
+            <div><Search repeat={this.state.repeat} handleAutoPlay={this.handleAutoPlay} handleSearchSubmit={this.handleSearchSubmit}/></div>
           </div>
         </nav>
         <div className="row">
           <div className="col-md-7">
-            <div><VideoPlayer video={this.state.videoPlaying} /></div>
+            <div><VideoPlayer autoplay={this.state.autoplay} video={this.state.videoPlaying} /></div>
           </div>
           <div className="col-md-5">
             <div><VideoList videos={this.state.videos} handleVideoTitleClick={this.handleVideoTitleClick}/></div>
