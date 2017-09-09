@@ -1,6 +1,9 @@
 var Search = (props) => (
   <div className="search-bar form-inline">
-    <input className="form-control" type="text" />
+    <input onKeyUp={(e) => e.keyCode === 13 ? props.handleSearchSubmit($('input').val()) : 0 } 
+          onChange={() => props.handleAutoSearch($('input').val())}
+          className="form-control" 
+          type="text" />
     <button onClick={() => props.handleSearchSubmit($('input').val())} className="btn hidden-sm-down">
       <span className="glyphicon glyphicon-search"></span>
     </button>

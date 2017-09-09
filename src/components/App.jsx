@@ -8,11 +8,15 @@ class App extends React.Component {
     this.options = {
       query: 'cat',
       max: '5',
-      key: YOUTUBE_API_KEY
+      key: YOUTUBE_API_KEY,
+      lastSearch: ''
     },
     this.handleVideoTitleClick = this.handleVideoTitleClick.bind(this);
-    this.updateVideos = this.updateVideos.bind(this);
     this.handleSearchSubmit = this.handleSearchSubmit.bind(this);
+    this.handleAutoSearch = this.handleAutoSearch.bind(this);
+    this.updateVideos = this.updateVideos.bind(this);    
+    
+    _.debounce(this.props.searchYouTube, 1500);
   }
   
   handleVideoTitleClick(video) {
@@ -24,6 +28,13 @@ class App extends React.Component {
   handleSearchSubmit(query) {
     this.options.query = query,
     this.props.searchYouTube(this.options, this.updateVideos);
+  }
+  
+  handleAutoSearch(query) {
+    if (query && query !== this.options.lastSearch) {
+      this.options.lastSearch = query;
+      this.handleSearchSubmit(query);
+    }
   }
   
   componentDidMount() {
@@ -43,7 +54,7 @@ class App extends React.Component {
       <div>
         <nav className="navbar">
           <div className="col-md-6 offset-md-3">
-            <div><Search handleSearchSubmit={this.handleSearchSubmit}/></div>
+            <div><Search handleAutoSearch={this.handleAutoSearch} handleSearchSubmit={this.handleSearchSubmit}/></div>
           </div>
         </nav>
         <div className="row">
